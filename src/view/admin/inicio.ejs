@@ -1,0 +1,87 @@
+<%- include("../navegacion/head.ejs") %> <%- include("./nav.ejs") %>
+
+<section class="productos">
+  <div class="container">
+    <header>
+      <h1>Productos</h1>
+      <a href="/admin/producto-nuevo" class="crear">Crear</a>
+    </header>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Código</th>
+          <th>Categoria</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i = 0; i < productos.length; i++) { %>
+        <tr>
+          <td><%= productos[i].id %></td>
+          <td><%= productos[i].nombre %></td>
+          <td><%= productos[i].precio %></td>
+          <td><%= productos[i].codigo %></td>
+          <td><%= productos[i].categoria %></td>
+          <td class="buttons">
+            <button style="background-color: #4c8faf">
+              <a href="/admin/producto-imagen/<%= productos[i].id %>">agg img</a>
+            </button>
+
+            <button style="background-color: #af834c">
+              <a href="/admin/producto-actualizar/<%= productos[i].id %>"
+                >edit</a
+              >
+            </button>
+            <button
+              style="background-color: #af4c4c"
+              id="<%= productos[i].id %>"
+              onclick="eliminarProducto()"
+            >
+              delete
+            </button>
+            <!-- <td><%= //productos[i].descripcion %></td> -->
+          </td>
+        </tr>
+
+        <% } %>
+        <!-- Puedes agregar más filas según sea necesario -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  const eliminarProducto = (e) => {
+    const id = document.activeElement.id;
+    const elementoDesaparecer =
+      document.activeElement.parentElement.parentElement;
+
+    const confirmacion = window.confirm(
+      "¿Estás seguro de que deseas continuar?"
+    );
+
+    if (!confirmacion) {
+      return;
+    }
+
+    fetch(`/admin/producto-eliminar/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        elementoDesaparecer.style.display = "none";
+      })
+      .catch((error) => {
+        console.error("Error al eliminar el producto:", error);
+        alert("Error al eliminar el producto");
+      });
+  };
+</script>
+
+<%- include("../navegacion/foot.ejs") %>

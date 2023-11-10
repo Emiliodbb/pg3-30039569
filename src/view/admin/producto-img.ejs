@@ -1,0 +1,60 @@
+<%- include("../navegacion/head.ejs") %> <%- include("./nav.ejs") %>
+
+<section class="admin-cargar-img">
+  <form
+    action="/admin/producto-imagen/<%= id %>"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <div class="grid-container">
+      <div class="input" onchange="cargarImagen(event)">
+        <label for="img1">
+          <input type="file" name="img" id="img1" /> <img src="" alt=""
+        /></label>
+      </div>
+      <div class="input" onchange="cargarImagen(event)">
+        <label for="img2">
+          <input type="file" name="img" id="img2" /> <img src="" alt=""
+        /></label>
+      </div>
+      <div class="input" onchange="cargarImagen(event)">
+        <label for="img3">
+          <input type="file" name="img" id="img3" /> <img src="" alt=""
+        /></label>
+      </div>
+      <div class="input" onchange="cargarImagen(event)">
+        <label for="img4">
+          <input type="file" name="img" id="img4" /> <img src="" alt=""
+        /></label>
+      </div>
+    </div>
+
+    <button type="submit">Agregar Imagenes</button>
+  </form>
+</section>
+
+<script>
+  const cargarImagen = (event) => {
+    const nodo = document.getElementById(event.target.id).parentNode;
+
+    const input = event.target;
+    const imagePreview = nodo.querySelector("img");
+
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        imagePreview.src = e.target.result;
+      };
+
+      nodo.style.border = "none";
+      imagePreview.style.display = "block";
+
+      reader.readAsDataURL(input.files[0]);
+    } else {
+      imagePreview.src = ""; // Si no se selecciona ningún archivo, borra la imagen
+    }
+  };
+</script>
+
+<%- include("../navegacion/foot.ejs") %>

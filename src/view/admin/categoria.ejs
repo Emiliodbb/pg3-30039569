@@ -1,0 +1,39 @@
+<%- include("../navegacion/head.ejs") %> <%- include("./nav.ejs") %>
+
+<section class="categoria">
+  <div class="container">
+    <header>
+      <h1>Categorias</h1>
+      <a href="/admin/categorias-nueva" class="crear">crear</a>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <% datos.forEach(function(categoria) { %>
+
+        <tr>
+          <td><%= categoria.dataValues.id %> %></td>
+          <td><%= categoria.dataValues.nombre %></td>
+          <td>
+            <a
+              class="idCategoria"
+              href="/admin/categorias-editar/<%= categoria.id %>"
+              id="<%= categoria.id %>"
+            >
+              edit
+            </a>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include("../navegacion/foot.ejs") %>

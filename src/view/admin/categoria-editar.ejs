@@ -1,0 +1,83 @@
+<%- include("../navegacion/head.ejs") %> <%- include("./nav.ejs") %>
+<style>
+
+
+
+  form {
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+</style>
+<form  >
+  <label for="nombre">Nombre de la Categoría:</label>
+  <input type="text" id="nombre" name="nombre" required  value="<%= datos.nombre %>"/>
+
+  <button type="submit">Crear Categoría</button>
+</form>
+
+<script>
+  form = document.querySelector("form");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const nombre = document.querySelector("#nombre").value;
+
+    const data = {
+      nombre,
+    };
+
+    fetch("/admin/categorias-editar/<%= datos.id %>", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        window.location.href = "/admin/categorias";
+      });
+  });
+</script>
+
+<%- include("../navegacion/foot.ejs") %>

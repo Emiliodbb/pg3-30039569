@@ -1,0 +1,111 @@
+<%- include("../navegacion/head.ejs") %> <%- include("./nav.ejs") %>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+
+  header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+
+  form {
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<section class="crear-producto">
+  <form action="/admin/producto-nuevo" method="post">
+    <label for="nombre">Nombre del Producto:</label>
+    <input type="text" id="nombre" name="nombre" required />
+
+    <label for="descripcion">Descripcion del Producto:</label>
+
+    <textarea name="descripcion" id="descripcion" required></textarea>
+
+    <label for="materiales">Materiales del Producto:</label>
+    <select name="materiales" id="materiales">
+      <option value="algodon">algodon</option>
+      <option value="licra">licra</option>
+      <option value="strect">strect</option>
+    </select>
+
+    <label for="categoria_id">Categoria</label>
+
+    <select name="categoria_id" id="categoria_id">
+      <% datos.forEach((categoria) =>{ %>
+      <option value="<%= categoria.dataValues.id %>">
+        <%= categoria.dataValues.nombre %>
+      </option>
+      <% }); %>
+    </select>
+
+    <label for="colores">colores:</label>
+    <select name="colores" id="colores">
+      <option value="azul">azul</option>
+      <option value="verde">verde</option>
+      <option value="negro">negro</option>
+      <option value="blanco">blanco</option>
+    </select>
+
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" name="precio" step="0.01" required />
+
+    <label for="codigo">Código:</label>
+    <input type="text" id="codigo" name="codigo" required />
+
+    <button type="submit">Crear Producto</button>
+  </form>
+</section>
+
+<%- include("../navegacion/foot.ejs") %>

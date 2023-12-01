@@ -26,8 +26,11 @@ db.sync({ logging: false }).then(() => {
 const inicio = require('./src/router/inicio');
 const administracion = require('./src/router/admin.js');
 
+
 app.use('/', inicio)
 app.use('/admin', administracion)
+
+
 //Puerto
 const port = 3000;
 app.listen(port, () => {

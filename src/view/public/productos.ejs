@@ -1,0 +1,110 @@
+<%- include("./nav.ejs") %>
+
+<section class="productos">
+  <div class="container">
+    <header>
+      <h1>Productos</h1>
+
+      <button id="toggleViewButton">Cambiar Vista</button>
+    </header>
+
+    <div class="containerInput">
+      <input
+        type="text"
+        id="nombreFilter"
+        placeholder="Nombre"
+        onkeydown="filtro('nombreFilter', 'nombre')"
+      />
+      <input
+        type="text"
+        id="codigoFilter"
+        placeholder="Código"
+        onkeydown="filtro('codigoFilter', 'codigo')"
+      />
+      <input
+        type="number"
+        id="precioFilter"
+        placeholder="Precio"
+        onkeydown="filtro('precioFilter', 'precio')"
+      />
+
+      <input
+        type="text"
+        id="colorFilter"
+        placeholder="Color"
+        onkeydown="filtro('colorFilter', 'color')"
+      />
+      <input
+        type="text"
+        id="materialesFilter"
+        placeholder="Materiales"
+        onkeydown="filtro('materialesFilter', 'material')"
+      />
+    </div>
+
+    <script>
+      const id = (id) => document.getElementById(id);
+      const all = (selector) => document.querySelectorAll(selector);
+
+      const filtro = (InputId, filtrarPor) => {
+        const nombreFilter = id(InputId).value.toLowerCase();
+        const recuperarContenidoNombre = all(`.grid-item span.${filtrarPor}`);
+
+        recuperarContenidoNombre.forEach((element) => {
+          let contenido = element.textContent.toLowerCase();
+          let elemntoPadre = element.parentElement.parentElement.parentElement;
+          if (contenido.includes(nombreFilter)) {
+            elemntoPadre.style.display = "block";
+          } else {
+            elemntoPadre.style.display = "none";
+          }
+        });
+      };
+    </script>
+
+    <div class="grid-container">
+      <% data.forEach(producto => { %>
+      <div class="grid-item">
+        <div class="inline">
+          <div class="containerImg">
+            <img src="<%= producto.img %>" alt="<%= producto.nombre %>" />
+          </div>
+          <h2><span class="nombre"><%= producto.nombre %></span></h2>
+          <p>
+            <strong>Código:</strong>
+            <span class="codigo"><%= producto.codigo %></span>
+          </p>
+          <p>
+            <strong>Precio:</strong> $
+            <span class="precio"> <%= producto.precio %> </span>
+          </p>
+          <p>
+            <strong>Material:</strong>
+            <span class="material"><%= producto.material %></span>
+          </p>
+          <p>
+            <strong>color:</strong>
+            <span class="color"><%= producto.color %></span>
+          </p>
+        </div>
+        <p class="description">
+          <span class="description"><%= producto.descripcion %></span>
+        </p>
+        <!-- Puedes mostrar más detalles del producto aquí -->
+        <a href="/productos/<%= producto.id %>">Ver más</a>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<script>
+  document
+    .getElementById("toggleViewButton")
+    .addEventListener("click", function () {
+      const container = document.querySelector(".productos .container");
+      container.classList.toggle("lista");
+    });
+</script>
+
+<%- include("../navegacion/foot.ejs") %>

@@ -24,7 +24,7 @@ router.post('/login', (req, res) => {
 
   if (usuario === USUARIO && password === CONTRASENA) {
 
-    res.redirect('/admin');
+    res.redirect('/admin/inicio');
 
   } else {
     res.send('contraseña incorrecta');
@@ -128,7 +128,7 @@ router.get('/inicio', async (req, res) => {
     })
   })
 
-  console.log(productos);
+
   res.render('admin/inicio', { productos });
 })
 

@@ -309,5 +309,22 @@ router.post('/producto-imagen/:id', upload.array('img', 4), async (req, res) => 
 })
 
 
+const Compra = require("../models/Compras");
+
+router.get('/compras', async (req, res) => {
+  try {
+    const compras = await Compra.findAll();
+
+    res.render('admin/compras', { data: compras });
+
+  } catch (error) {
+
+    console.error('Error al obtener las compras:', error);
+    res.status(500).json({ mensaje: 'Error al obtener las compras' });
+
+  }
+})  
+
+
 
 module.exports = router;

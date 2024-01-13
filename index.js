@@ -25,11 +25,13 @@ db.sync({ logging: false }).then(() => {
 // importando las rutas
 const inicio = require('./src/router/inicio');
 const administracion = require('./src/router/admin.js');
-
+const cliente = require('./src/router/cliente.js');
+const compra = require('./src/router/compra.js');
 
 app.use('/', inicio)
 app.use('/admin', administracion)
-
+app.use('/cliente', cliente)
+app.use('/compra', compra)
 
 //Puerto
 const port = 3000;

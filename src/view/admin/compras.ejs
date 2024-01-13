@@ -1,0 +1,44 @@
+<%- include("../navegacion/head.ejs") %> <%- include("./nav.ejs") %>
+
+<section class="productos">
+  <div class="container">
+    <header>
+      <h1>Compras</h1>
+     
+    </header>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>descripcion</th>
+          <th>costo</th>
+         
+          <th>codigo</th>
+
+            <th>fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+       
+        <% for (let i = 0; i < data.length; i++) { %>
+        <tr>
+            
+            <td><%= data[i].id %></td>
+            <td><%= data[i].description %></td>
+            <td>$<%= data[i].total_pagado %></td>
+            <td><%= data[i].producto_id %></td>
+            
+            <td><%= data[i].fecha %></td>
+            
+          </td>
+        </tr>
+
+        <% } %>
+        <!-- Puedes agregar más filas según sea necesario -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include("../navegacion/foot.ejs") %>

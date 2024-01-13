@@ -1,0 +1,81 @@
+<%- include("../nav.ejs") %>
+
+<style>
+  body {
+    background-color: bisque;
+  }
+</style>
+
+<section class="login-admin">
+  <form id="login-form">
+    <h1>Iniciar sesión</h1>
+    <input
+      type="email"
+      name="correo"
+      id="correo"
+      placeholder="Correo"
+      required
+    />
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="Contraseña"
+      required
+    />
+    <input
+      type="hidden"
+      id="g-recaptcha-response"
+      name="g-recaptcha-response"
+    />
+    <button
+      type="button"
+      class="g-recaptcha btn btn-success btn-lg btn-block"
+      data-sitekey="6LdMRl8pAAAAAPAAH-LwTg4D8hxP7Bqp_nFQiS1B"
+      data-callback="onSubmit"
+      data-action="submit"
+    >
+      Iniciar sesión
+    </button>
+  </form>
+</section>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+  function onSubmit(token) {
+    document.getElementById("g-recaptcha-response").value = token;
+
+    const correo = document.getElementById("correo").value;
+    const password = document.getElementById("password").value;
+    const gRecaptchaResponse = document.getElementById("g-recaptcha-response")
+      .value;
+
+      const data = JSON.stringify({
+        correo,
+        password,
+        "g-recaptcha-response": gRecaptchaResponse,
+      })
+      
+    
+
+    fetch("/cliente/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        localStorage.setItem("token", data.token);
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
+
+<%- include("../../navegacion/foot.ejs") %>

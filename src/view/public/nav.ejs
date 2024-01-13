@@ -1,13 +1,77 @@
 <%- include("../navegacion/head.ejs") %>
+
+<style>
+  .menu-toggle {
+    display: none;
+ 
+  }
+
+  /* Desktop view */
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+      font-size: 28px;
+      color: #fff;
+    }
+
+    #nav {
+      position: fixed;
+      width: 200px;
+      
+      height: 100%;
+      background-color: #333;
+      top: 0;
+      right: -200px;
+      transition: right 0.3s linear;
+      top: 60px;
+    }
+
+    #nav.active {
+      right: 0;
+      z-index: 10000;
+    }
+
+    #nav ul {
+      flex-direction: column;
+      height: 100%;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #nav ul li {
+      width: 100%;
+    }
+
+    #nav ul li a {
+      display: block;
+      padding: 10px;
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+</style>
+
 <header>
   <div class="logo">
-    <h1 style="color: aliceblue">ropa deportiva</h1>
+    <h1 style="color: aliceblue;">Ropa Deportiva</h1>
   </div>
-  <nav>
+  <nav id="nav">
     <ul>
       <li><a href="/">Inicio</a></li>
       <li><a href="/">Productos</a></li>
-      <li><a href="/admin/login">login</a></li>
+      <li><a href="/admin/login">Admin</a></li>
+      <li><a href="/cliente/registro">Registro</a></li>
+      <li><a href="/cliente/login">Login</a></li>
     </ul>
   </nav>
+  <div class="menu-toggle">&#9776;</div>
 </header>
+
+<script>
+  const menuToggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector("#nav");
+
+  menuToggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+  });
+</script>

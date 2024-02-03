@@ -5,6 +5,7 @@ const Categoria = require("../models/Categoria");
 const Producto = require("../models/Producto");
 const Imagenes = require("../models/Imagenes");
 
+
 // Ruta de ejemplo que renderiza una plantilla EJS
 router.get('/', async (req, res) => {
   const productos = await Producto.findAll();
@@ -36,6 +37,7 @@ router.get('/', async (req, res) => {
       descripcion: producto.descripcion,
       material: producto.materiales,
       color: producto.colores,
+      calificacion: producto.calificacionTotal,
       img: producto.imagenes && producto.imagenes.length > 0 ? producto.imagenes[0].url : null
     };
     return resumidoProducto;
@@ -65,9 +67,12 @@ router.get('/productos/:id', async (req, res) => {
         materiales: producto.materiales,
         color: producto.colores,
         precio: producto.precio,
+        calificacion: producto.calificacionTotal,
         imgs: []
       }
     ];
+
+    /* console.log(productoArr); */
 
     // Ordenar las imágenes por el atributo destacada y agregar las URLs al arreglo
     imagenes.sort((a, b) => b.destacada - a.destacada);

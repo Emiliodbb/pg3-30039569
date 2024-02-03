@@ -37,6 +37,12 @@ Producto.init({
     type: DataTypes.INTEGER,
 
   },
+
+  calificacionTotal: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  }
+
 },
 
   {

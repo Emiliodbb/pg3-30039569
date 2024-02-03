@@ -1,0 +1,56 @@
+<%- include("../nav.ejs") %>
+
+<style>
+  body {
+    background-color: bisque;
+  }
+</style>
+
+<section class="login-admin">
+  <form id="reset-password-form">
+    <h1>Recuperar contraseña</h1>
+    <input
+      type="email"
+      name="correo"
+      id="correo"
+      placeholder="Correo"
+      required
+    />
+    <button
+      type="button"
+      class="btn btn-success btn-lg btn-block"
+      id="submit-button"
+    >
+      Enviar correo de recuperación
+    </button>
+    <a style="text-decoration: none; color: #282828; margin-top: 10px;" href="/cliente/login">Volver a iniciar sesión</a>
+  </form>
+</section>
+
+<script>
+  document.getElementById("submit-button").addEventListener("click", function() {
+    const correo = document.getElementById("correo").value;
+
+    const data = JSON.stringify({
+      correo
+    })
+
+    fetch("/cliente/reset-pass", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+</script>
+
+<%- include("../../navegacion/foot.ejs") %>

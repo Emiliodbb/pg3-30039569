@@ -1,5 +1,11 @@
 <%- include("./nav.ejs") %>
 
+<style>
+  .calificar {
+    display: none !important;
+  }
+</style>
+
 <section class="productos">
   <div class="container">
     <header>
@@ -62,9 +68,11 @@
       };
     </script>
 
+
+
     <div class="grid-container">
       <% data.forEach(producto => { %>
-      <div class="grid-item">
+      <div class="grid-item " id="<%= producto.id %>">
         <div class="inline">
           <div class="containerImg">
             <img src="<%= producto.img %>" alt="<%= producto.nombre %>" />
@@ -92,6 +100,7 @@
         </p>
         <!-- Puedes mostrar más detalles del producto aquí -->
         <a href="/productos/<%= producto.id %>">Ver más</a>
+        <%- include('./calificacion/calificacion.ejs') %>
       </div>
       <% }); %>
     </div>
@@ -99,12 +108,7 @@
 </section>
 
 <script>
-  document
-    .getElementById("toggleViewButton")
-    .addEventListener("click", function () {
-      const container = document.querySelector(".productos .container");
-      container.classList.toggle("lista");
-    });
+  
 </script>
 
 <%- include("../navegacion/foot.ejs") %>

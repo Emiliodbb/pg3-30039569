@@ -7,4 +7,15 @@ const sequelize = new Sequelize({
 
 /* sequelize.query('DROP TABLE IF EXISTS clientes'); */
 
+/* (async () => {
+  await sequelize.getQueryInterface().addColumn(
+    'productos', 
+    'calificacionTotal', 
+    {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
+    }
+  );
+})() */
+
 module.exports = sequelize;

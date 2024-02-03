@@ -2,14 +2,16 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const axios = require("axios");
 const ip = require('ip');
+const email = require('../fn/email.js')
 
 const Compra = require('../models/Compras.js');
+const Cliente = require('../models/Cliente.js');
 
 const { JWTSECRETO, API_URL, API_KEY } = process.env;
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { amount, description, cardType, cvv, expirationMonth, expirationYear, productId, sessionToken } = req.body
 
 
@@ -31,15 +33,13 @@ router.post('/', (req, res) => {
         };
 
 
-        console.warn("paymentData:", paymentData);
-
         axios.post(API_URL + "/payments", paymentData, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${API_KEY}`,
             }
         })
-            .then((response) => {
+            .then(async (response) => {
                 const data = {
                     cliente_id: decoded.id,
                     ip_cliente: ip.address(),
@@ -50,7 +50,17 @@ router.post('/', (req, res) => {
                     total_pagado: amount,
                 }
 
-               
+                const { id } = decoded;
+
+                //busca el correo por el id del cliente
+                await Cliente.findByPk(id)
+                    .then(cliente => {
+                        const { correo } = cliente;
+                        console.log(correo);    
+                        email(correo, "Se realizo la compra exitosamente", "Gracias por su compra, su pedido esta en camino")
+                    });
+
+
 
                 Compra.create(data)
                     .then((compra) => {

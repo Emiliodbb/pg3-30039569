@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 // carpeta de archivos estaticos
 app.use(express.static(path.join(process.cwd(), 'src', 'public')));
 
+
 // configurando EJS
 app.set('views', path.join(__dirname, '/src/view'));
 app.set('view engine', 'ejs');
@@ -27,11 +28,13 @@ const inicio = require('./src/router/inicio');
 const administracion = require('./src/router/admin.js');
 const cliente = require('./src/router/cliente.js');
 const compra = require('./src/router/compra.js');
+const calificacion = require('./src/router/calificacion.js');
 
 app.use('/', inicio)
 app.use('/admin', administracion)
 app.use('/cliente', cliente)
 app.use('/compra', compra)
+app.use('/calificacion', calificacion)
 
 //Puerto
 const port = 3000;

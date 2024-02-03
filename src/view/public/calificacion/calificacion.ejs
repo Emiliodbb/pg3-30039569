@@ -1,0 +1,38 @@
+<style>
+  .calificacionGroup div {
+    display: inline-flex;
+  }
+
+  .calificacionGroup svg {
+    cursor: pointer;
+  }
+  .calificacionGroup svg:hover {
+    fill: darkorange;
+  }
+
+  .calificacionGroup .activeScore {
+    fill: darkorange;
+  }
+</style>
+
+<div class="calificacionGroup" style="margin-top: 40px;">
+  <div id="nivel1">
+    <%- include('./strella.ejs') %>
+  </div>
+  <div id="nivel2">
+    <%- include('./strella.ejs') %>
+  </div>
+  <div id="nivel3">
+    <%- include('./strella.ejs') %>
+  </div>
+  <div id="nivel4">
+    <%- include('./strella.ejs') %>
+  </div>
+  <div id="nivel5">
+    <%- include('./strella.ejs') %>
+  </div>
+  <div class="calificar" id="calificar">
+    <button id="btn" class="btn btn-primary" disabled>Calificar</button>
+  </div>
+</div>
+

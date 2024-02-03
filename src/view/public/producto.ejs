@@ -3,6 +3,10 @@
   rel="stylesheet"
   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 />
+
+
+
+
 <section class="producto-detalle">
   <div class="container">
     <% data.forEach(producto => { %>
@@ -62,11 +66,13 @@
         </div>
         <div class="col-md-6">
           <h2><%= producto.nombre %></h2>
+
           <p class="descripcion"><%= producto.descripcion %></p>
           <p><strong>Código:</strong> <%= producto.codigo %></p>
           <p><strong>Materiales:</strong> <%= producto.materiales %></p>
           <p><strong>Color:</strong> <%= producto.color %></p>
           <p><strong>Precio:</strong> $<%= producto.precio %></p>
+          
           <button
             class="comprar-button btn btn-primary"
             data-toggle="modal"
@@ -74,6 +80,8 @@
           >
             Comprar
           </button>
+
+          <%- include('./calificacion/calificacion.ejs') %>
         </div>
       </div>
     </div>
@@ -198,8 +206,6 @@
         sessionToken: localStorage.getItem("token"),
       };
 
-      
-
       fetch("/compra", {
         method: "POST",
         headers: {
@@ -210,19 +216,107 @@
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          console.log("hola")
+          console.log("hola");
 
           if (data.error === "token") {
             window.location.href = "/cliente/login";
           }
         })
         .catch((error) => {
-
           console.error("Error:", error);
-      
-          
         });
     });
+</script>
+
+<!-- CALIFICACION -->
+
+<script>
+  const niveles = Array.from({ length: 5 }, (_, i) =>
+    document.getElementById(`nivel${i + 1}`)
+  );
+
+  niveles.forEach((nivel, index) => {
+    nivel.addEventListener("click", () => {
+      niveles.forEach((n, i) => {
+        if (i <= index) {
+          n.classList.add("activeScore");
+        } else {
+          n.classList.remove("activeScore");
+        }
+
+        if (n.classList.contains("activeScore")) {
+          document.getElementById("btn").removeAttribute("disabled");
+        }
+      });
+    });
+  });
+
+  const url = window.location.pathname;
+  const urlSegments = url.split("/");
+  const lastSegment = urlSegments[urlSegments.length - 1];
+
+  document.getElementById("calificar").addEventListener("click", () => {
+    const calificacion = niveles.filter((n) =>
+      n.classList.contains("activeScore")
+    ).length;
+
+    const data = {
+      calificacion,
+      token: localStorage.getItem("token"),
+      idProducto: lastSegment,
+    };
+
+    console.log(data);
+
+    fetch("/calificacion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  });
+
+  let calificacion = JSON.parse(`<%- JSON.stringify(data) %>`);
+
+  console.log(calificacion);
+  function addActiveScoreClass(score) {
+    
+    for (let i = 1; i <= score; i++) {
+      document.getElementById("nivel" + i).classList.add("activeScore");
+      console.log("nivel" + i);
+    }
+  }
+  console.log(calificacion[0].calificacion);
+  addActiveScoreClass(calificacion[0].calificacion);
+
+  // Ahora puedes usar la variable calificacion en tu código JavaScript
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+
+    fetch(`/calificacion/${token}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token,
+        idProducto: lastSegment,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        /* console.log(data); */
+        if (data.calificacion !== 0) {
+          // Si existe la calificación, oculta el elemento
+          const calificarDiv = document.getElementById("calificar");
+          calificarDiv.style.display = "none";
+        }
+      });
+  });
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
